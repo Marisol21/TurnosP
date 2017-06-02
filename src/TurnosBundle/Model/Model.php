@@ -14,7 +14,7 @@ class Model {
     public function __construct(){
         $this->host = 'localhost';
         $this->usuario = 'root';
-        $this->password = '';
+        $this->password = 'hola';
         $this->db = 'turnos';
         if(!isset($this->conexion)){
             $this->conexion = (mysqli_connect($this->host, $this->usuario, $this->password, $this->db)) or die (mysqli_connect_error());
