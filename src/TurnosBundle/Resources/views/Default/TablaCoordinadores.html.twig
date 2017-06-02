@@ -1,0 +1,19 @@
+{% for coordinador in Coordinadores %}
+    <tr>
+        <td>{{ coordinador.NomCoord }}</td>
+        <td><input id="Modificar" name="Modificar" type="button" data-id="{{ coordinador.idCoord }}" data-nombre="{{ coordinador.NomCoord }}"
+                   data-usr="{{ coordinador.UsrCoord }}" data-psw="{{ coordinador.PwdCoord }}" value="Modificar"></td>
+    </tr>
+{% endfor %}
+
+{% block javascripts %}
+    <script>
+        $("input#Modificar").click(function(){
+            alert($(this).data('id'));
+            $("#idCoor").val($(this).data('id'));
+            $("#nombreCoor").val($(this).data('nombre'));
+            $("#usrCoor").val($(this).data('usr'));
+            $("#pwdCoor").val($(this).data('psw'));
+        });
+    </script>
+{% endblock%}

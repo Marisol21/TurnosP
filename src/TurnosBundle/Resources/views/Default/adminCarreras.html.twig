@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+{%  block contenido %}
+    {#comentar#}
+    <div class="row">
+        <form class="col s10">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="nombreCarrera" name="nombreCarrera" type="text" class="validate">
+                    <label for="name">Nombre</label>
+                </div>
+                <div class="input-field col s2">
+                    <input id="idCa" name="idCa" type="text" style="visibility: hidden" class="validate">
+                    <label for="idCa"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <input id="notur" name="notur" type="text" class="validate">
+                    <label for="usuario">Turno</label>
+                </div>
+                <div class="input-field col s4">
+                    {#<input id="pwdCoor" type="password" class="validate">#}
+                    <input type="text" id="idco" name="idco" class="validate">
+                    <label for="password">Coordinador</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <input type="button" id="AgregarCrr" value="Agregar" />
+    <input type="button" id="EliminarCrr" value="Eliminar" />
+    <input type="button" id="GuardarCrr" value="Guardar" />
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre Carrera</th>
+        </tr>
+        </thead>
+        <tbody id="tbody"> {# para hacer más dinamico la tabla#}
+
+        </tbody>
+    </table>
+{%  endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $("#tbody").load("{{ path('LlenarTablaCarreras') }}")
+            $("#AgregarCrr").click(function(){
+                $.ajax({
+                    url: "{{ path('AgregarCrr') }}",
+                    type: "POST",
+                    data: $(".validate").serialize(),
+                    success: function(data){
+                        if($.trim(data == "1"))
+                            $("#tbody").load("{{ path("LlenarTablaCarreras") }}");
+                        else
+                            alert("Problemas al insertar");
+                    }
+                });
+            });
+
+            $("")
+        });
+    </script>
+{% endblock %}

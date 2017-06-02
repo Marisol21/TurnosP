@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Administrador{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/materialize.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/icon.css') }}">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+
+    <body>
+    {% block body %}
+        <div class="container">
+            <table>
+                <tr>
+                   <h2 align="center">Login</h2>
+                </tr>
+                <td>
+                    <tr>
+                        <div class="input-field col s3">
+                            <input id="usuarioAdmin" name="usuarioAdmin" type="text" class="validate" />
+                            <label for="usuario">Usuario</label>
+                        </div>
+                    </tr>
+                    <tr>
+                        <div class="input-field col s3">
+                            <input type="password" id="contrasenaAdmin" name="contrasenaAdmin" type="text" class="validate" />
+                            <label for="contrasena">Contraseña</label>
+                        </div>
+                    </tr>
+                    <tr>
+                        <div class="form-group" align="center">
+                            <input type="button" id="iniciarAdmin" name="iniciarAdmin" value="Ingresar"/>
+                        </div>
+                    </tr>
+                </td>
+            </table>
+        </div>
+    {% endblock %}
+    <style>
+        .container{
+            margin: 0 auto;
+            max-width: 1080px;
+            width: 30%;
+        }
+    </style>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/jquery-3.1.0.js') }}"></script>
+        <script src="{{ asset('js/materialize.min.js') }}"></script>
+        <script>
+            //jQuery(document).ready(function($){           OTRA FORMA DE COLOCAR
+            $(document).ready(function(){
+                    $("#iniciarAdmin").click(function () {
+                        if($("#usuarioAdmin").val() == ""){
+                            alert("Usuario es requerido");
+                            }
+                        else if($("#contrasenaAdmin").val() == ""){
+                              alert("Contraseña requerida");
+                        }
+                        else {
+                            $.ajax({
+                                url: "{{ path('loginAdmin') }}",
+                                type: "POST",
+                                data: $(".validate").serialize(),
+                                success: function (data) {
+                                    if ($.trim(data) == "1")
+                                            document.location.href = '{{ path('AdminCoord') }}'
+                                    else
+                                            alert("Usuario o contraseña incorrecto");
+                                }
+                            });
+                        }
+                    });
+            });
+            </script>
+    {% endblock %}
+</body>i
+</html>

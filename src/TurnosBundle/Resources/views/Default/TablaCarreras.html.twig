@@ -1,0 +1,19 @@
+{% for carrera in Carreras %}
+    <tr>
+        <td>{{ carrera.NomCarrera }}</td>
+        <td><input id="Modificar" name="Modificar" type="button" data-id="{{ carrera.idCarrera }}" data-nombreC="{{ carrera.NomCarrera }}"
+                   data-nt="{{ carrera.NoTurno }}" data-idC="{{ carrera.idCoord }}" value="Modificar"></td>
+    </tr>
+{% endfor %}
+
+{% block javascripts %}
+    <script>
+        $("input#Modificar").click(function(){
+            alert($(this).data('id'));
+            $("#idCa").val($(this).data('id'));
+            $("#nombreCarrera").val($(this).data('nombreC'));
+            $("#notur").val($(this).data('nt'));
+            $("#idco").val($(this).data('idC'));
+        });
+    </script>
+{% endblock%}

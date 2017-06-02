@@ -1,0 +1,103 @@
+{% extends '::base.html.twig' %}
+{%  block contenido %}
+    {#comentar#}
+    <div class="row">
+        <form class="col s10">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="nombreCoor" name="nombreCoor" type="text" class="validate">
+                    <label for="name">Nombre</label>
+                </div>
+                <div class="input-field col s2">
+                    <input id="idCoor" name="idCoor" type="text" style="visibility: hidden" class="validate">
+                    <label for="idCoor"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <input id="usrCoor" name="usrCoor" type="text" class="validate">
+                    <label for="usuario">Usuario</label>
+                </div>
+                <div class="input-field col s4">
+                    {#<input id="pwdCoor" type="password" class="validate">#}
+                    <input type="text" id="pwdCoor" name="pwdCoor" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <input type="button" id="Agregar" value="Agregar" />
+    <input type="button" id="Eliminar" value="Eliminar" />
+    <input type="button" id="Guardar" value="Guardar" />
+
+    {#<form action="">
+        <input type="text" id="idCoor" name="idCoor" class="validate">
+        <input type="text" id="nombreCoor" name="nombreCoor" class="validate">
+        <input type="text" id="usrCoor" name="usrCoor" class="validate">
+        <input type="text" id="pwdCoor" name="pwdCoor" class="validate">
+        <input type="button" id="Agregar" value="Agregar" />
+        <input type="button" id="Eliminar" value="Eliminar" />
+        <input type="button" id="Guardar" value="Guardar" />
+    </form>#}
+
+    <table class="">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            {#<th>Carrera</th>#}
+        </tr>
+        </thead>
+        <tbody id="tbody"> {# para hacer más dinamico la tabla#}
+
+        </tbody>
+    </table>
+{%  endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $("#tbody").load("{{ path('LlenarTablaCoordinadores') }}")
+            $("#Agregar").click(function(){
+                $.ajax({
+                    url: "{{ path('Agregar') }}",
+                    type: "POST",
+                    data: $(".validate").serialize(),
+                    success: function(data){
+                        if($.trim(data == "1"))
+                                $("#tbody").load("{{ path("LlenarTablaCoordinadores") }}");
+                        else
+                                alert("Problemas al insertar");
+                    }
+                });
+            });
+            $("#Guardar").click(function(){
+                $.ajax({
+                    url: "{{ path('Guardar') }}",
+                    type: "POST",
+                    data: $(".validate").serialize(),
+                    success: function (data) {
+                        if($.trim(data == "1"))
+                            $("#tbody").load("{{ path("LlenarTablaCoordinadores") }}");
+                        else
+                            alert("Problemas al actulizar");
+                    }
+                });
+            });
+            $("#Eliminar").click(function(){
+                $.ajax({
+                    url: "{{ path('Eliminar') }}",
+                    type: "POST",
+                    data: $(".validate").serialize(),
+                    success: function(data){
+                        if ($.trim(data == "1"))
+                                $("#tbody").load("{{ path("LlenarTablaCoordinadores") }}");
+                        else
+                                alert("Problemas al eliminar");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
